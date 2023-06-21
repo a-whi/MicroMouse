@@ -26,7 +26,7 @@ int start[2]= {0,0};
 
 // A linked list node
 struct Node {
-    int data;
+    const int data;
     Node* next;
 };
 
@@ -76,31 +76,35 @@ struct Queue {
 
 void floodFill(){
 
+    int currentCoord[2] = {0};
     // Initialise the queue
     Queue q;
     // Add goal to queue
     q.enqueue(goal);
 
-    while (q != nullptr){
-        int currentCoord[2] = Node *front->data;   // Set currentCoord as the coords at the front of queue
+    while (q.front != nullptr){
+
+        // Set currentCoord as the coords at the front of queue
+        currentCoord[0] = q.front->data[0];
+        currentCoord[1] = q.front->data[1];   
 
         // if grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
-        if (grid[currentcood[0]][(currentcood[1])+1] == '' || grid[currentcood[0]][(currentcood[1])+1] > grid[currentCoord]){
-            grid[currentcood[0]][(currentcood[1])+1] == grid[currentCoord] + 1;
+        if (grid[currentCoord[0]][currentCoord[1]+1] == 0 || grid[currentCoord[0]][currentCoord[1]] > grid[currentCoord[0]][currentCoord[1] + 1]){
+            grid[currentCoord[0]][(currentCoord[1])+1] == grid[currentCoord] + 1;
             // Add coord to the queue
-            q.enqueue(grid[currentcood[0]][(currentcood[1])+1]);
+            q.enqueue(grid[currentCoord[0]][(currentCoord[1])+1]);
 
-        }else if (grid[currentcood[0]][(currentcood[1])-1] == '' || grid[currentcood[0]][(currentcood[1])-1] > grid[currentCoord]){
-            grid[currentcood[0]][(currentcood[1])-1] == grid[currentCoord] + 1;
-            q.enqueue(grid[currentcood[0]][(currentcood[1])-1]);
+        }else if (grid[currentCoord[0]][(currentCoord[1])-1] == 0 || grid[currentCoord[0]][(currentCoord[1])-1] > grid[currentCoord]){
+            grid[currentCoord[0]][(currentCoord[1])-1] == grid[currentCoord] + 1;
+            q.enqueue(grid[currentCoord[0]][(currentCoord[1])-1]);
 
-        }else if (grid[(currentcood[0])+1][currentcood[1]] == '' || grid[(currentcood[0])+1][currentcood[1]] > grid[currentCoord]){
-            grid[(currentcood[0])+1][currentcood[1]] == grid[currentCoord] + 1;
-            q.enqueue(grid[(currentcood[0])+1][currentcood[1]]);
+        }else if (grid[(currentCoord[0])+1][currentCoord[1]] == 0 || grid[(currentCoord[0])+1][currentCoord[1]] > grid[currentCoord]){
+            grid[(currentCoord[0])+1][currentCoord[1]] == grid[currentCoord] + 1;
+            q.enqueue(grid[(currentCoord[0])+1][currentCoord[1]]);
 
-        }else if (grid[(currentcood[0])-1][(currentcood[1])+1] == '' || grid[(currentcood[0])-1][(currentcood[1])+1] > grid[currentCoord]){
-            grid[(currentcood[0])-1][currentcood[1]] == grid[currentCoord] + 1;
-            q.enqueue(grid[(currentcood[0])-1][currentcood[1]]);
+        }else if (grid[(currentCoord[0])-1][(currentCoord[1])+1] == 0 || grid[(currentCoord[0])-1][(currentCoord[1])+1] > grid[currentCoord]){
+            grid[(currentCoord[0])-1][currentCoord[1]] == grid[currentCoord] + 1;
+            q.enqueue(grid[(currentCoord[0])-1][currentCoord[1]]);
         }
         q.dequeue(front);   // Delete the front node from queue
     }
