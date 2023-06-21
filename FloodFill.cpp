@@ -123,6 +123,15 @@ Psudocode:
     d. Else, continue
 */ 
 
+
+void printMaze() {
+    for (int i = 0; i < grid_size; i++) {
+        for (int j = 0; j < grid_size; j++) {
+            std::cout << grid[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
 int main(){
 
     // Set goal on grid to 0
@@ -131,6 +140,7 @@ int main(){
     // Call flood fill to populate the maze with values
     floodFill(goal[0], goal[1]);
 
+    printMaze();
     // Actually running through the maze with the 'Manhattan Distancse'
 
     return 0;
