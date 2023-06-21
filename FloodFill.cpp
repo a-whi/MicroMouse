@@ -89,20 +89,20 @@ void floodFill(){
         currentCoord[1] = q.front->data[1];   
 
         // if grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
-        if (grid[currentCoord[0]][currentCoord[1]+1] == 0 || grid[currentCoord[0]][currentCoord[1]] > grid[currentCoord[0]][currentCoord[1] + 1]){
+        if (grid[currentCoord[0]][currentCoord[1]+1] == 0){
             grid[currentCoord[0]][(currentCoord[1])+1] == grid[currentCoord] + 1;
             // Add coord to the queue
             q.enqueue(grid[currentCoord[0]][(currentCoord[1])+1]);
 
-        }else if (grid[currentCoord[0]][(currentCoord[1])-1] == 0 || grid[currentCoord[0]][(currentCoord[1])-1] > grid[currentCoord]){
+        }else if (grid[currentCoord[0]][(currentCoord[1])-1] == 0){
             grid[currentCoord[0]][(currentCoord[1])-1] == grid[currentCoord] + 1;
             q.enqueue(grid[currentCoord[0]][(currentCoord[1])-1]);
 
-        }else if (grid[(currentCoord[0])+1][currentCoord[1]] == 0 || grid[(currentCoord[0])+1][currentCoord[1]] > grid[currentCoord]){
+        }else if (grid[(currentCoord[0])+1][currentCoord[1]] == 0){
             grid[(currentCoord[0])+1][currentCoord[1]] == grid[currentCoord] + 1;
             q.enqueue(grid[(currentCoord[0])+1][currentCoord[1]]);
 
-        }else if (grid[(currentCoord[0])-1][(currentCoord[1])+1] == 0 || grid[(currentCoord[0])-1][(currentCoord[1])+1] > grid[currentCoord]){
+        }else if (grid[(currentCoord[0])-1][(currentCoord[1])+1] == 0){
             grid[(currentCoord[0])-1][currentCoord[1]] == grid[currentCoord] + 1;
             q.enqueue(grid[(currentCoord[0])-1][currentCoord[1]]);
         }
