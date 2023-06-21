@@ -3,6 +3,7 @@ Created by: Alex Whitfield
 Date: 21/06/23
 
 This is my Flood fill algorithm. It's written in C++ as that is what Arduino reads. 
+This is my first C++ code, hence why it has so many comments.
 */
 
 #include <iostream>
