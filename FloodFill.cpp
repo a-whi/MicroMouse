@@ -6,7 +6,20 @@ This is my Flood fill algorithm. It's written in C++ as that is what Arduino rea
 This is my first C++ code, hence why it has so many comments.
 */
 
+
 #include <iostream>
+
+
+// Global variables:
+
+// Creates a blank grid
+const int grid_size = 8;
+int grid[grid_size][grid_size];
+
+// The start and end values are known
+int goal[2] = {5,5};
+int start[2]= {0,0};
+
 
 // Create a queue using linked list
 // Add to the back take from the front deleting the head and changing the head
@@ -25,10 +38,10 @@ struct Queue {
     // I will initialise the enQueue and deQueue funtions here within the struct so it is self-contained
 
     // The function to add a data to queue
-    void enqueue(int x) {
+    void enqueue(const int (&coord)[2]) {
         // Create a new node
         Node* newNode = new Node();
-        newNode->data = x;
+        newNode->data = coord;
         newNode->next = nullptr;
 
         // If queue is empty, then new node is front and rear both
@@ -61,6 +74,37 @@ struct Queue {
 };
 
 
+void floodFill(){
+
+    // Initialise the queue
+    Queue q;
+    // Add goal to queue
+    q.enqueue(goal);
+
+    while (q != nullptr){
+        int currentCoord[2] = Node *front->data;   // Set currentCoord as the coords at the front of queue
+
+        // if grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
+        if (grid[currentcood[0]][(currentcood[1])+1] == '' || grid[currentcood[0]][(currentcood[1])+1] > grid[currentCoord]){
+            grid[currentcood[0]][(currentcood[1])+1] == grid[currentCoord] + 1;
+            // Add coord to the queue
+            q.enqueue(grid[currentcood[0]][(currentcood[1])+1]);
+
+        }else if (grid[currentcood[0]][(currentcood[1])-1] == '' || grid[currentcood[0]][(currentcood[1])-1] > grid[currentCoord]){
+            grid[currentcood[0]][(currentcood[1])-1] == grid[currentCoord] + 1;
+            q.enqueue(grid[currentcood[0]][(currentcood[1])-1]);
+
+        }else if (grid[(currentcood[0])+1][currentcood[1]] == '' || grid[(currentcood[0])+1][currentcood[1]] > grid[currentCoord]){
+            grid[(currentcood[0])+1][currentcood[1]] == grid[currentCoord] + 1;
+            q.enqueue(grid[(currentcood[0])+1][currentcood[1]]);
+
+        }else if (grid[(currentcood[0])-1][(currentcood[1])+1] == '' || grid[(currentcood[0])-1][(currentcood[1])+1] > grid[currentCoord]){
+            grid[(currentcood[0])-1][currentcood[1]] == grid[currentCoord] + 1;
+            q.enqueue(grid[(currentcood[0])-1][currentcood[1]]);
+        }
+        q.dequeue(front);   // Delete the front node from queue
+    }
+}
 
 
 /*
@@ -74,25 +118,21 @@ Psudocode:
     d. Else, continue
 */ 
 
-
 int main(){
 
-    // Creates a blank grid
-    const int grid_size = 8;
-    int grid[grid_size][grid_size];
-
-    // The start and end values are known
-    int goal[2] = {5,5};
-    int start[2]= {0,0};
-    
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
 
-    // Add to queue
+    // Call flood fill to populate the maze with values
+    floodFill();
 
-
-
+    // Actually running through the maze with the 'Manhattan Distancse'
 
     return 0;
 }
 
+
+
+// When running
+// Add if cell has been visited
+// if it hits a wall, recalculate floodfill
