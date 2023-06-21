@@ -11,12 +11,12 @@ This is my first C++ code, hence why it has so many comments.
 
 
 // Global variables:
+// All these values are know before the competition
 
 // Creates a blank grid
 const int grid_size = 8;
 int grid[grid_size][grid_size];
 
-// The start and end values are known
 int goal[2] = {5,5};
 int start[2]= {0,0};
 
