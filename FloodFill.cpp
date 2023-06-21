@@ -26,7 +26,7 @@ int start[2]= {0,0};
 
 // A linked list node
 struct Node {
-    const int data;
+    int data[2];
     Node* next;
 };
 
@@ -38,10 +38,11 @@ struct Queue {
     // I will initialise the enQueue and deQueue funtions here within the struct so it is self-contained
 
     // The function to add a data to queue
-    void enqueue(const int (&coord)[2]) {
+    void enqueue(int x, int y) {
         // Create a new node
         Node* newNode = new Node();
-        newNode->data = coord;
+        newNode->data[0] = x;
+        newNode->data[1] = y;
         newNode->next = nullptr;
 
         // If queue is empty, then new node is front and rear both
@@ -74,13 +75,13 @@ struct Queue {
 };
 
 
-void floodFill(){
+void floodFill(int x, int y){
 
     int currentCoord[2] = {0};
     // Initialise the queue
     Queue q;
     // Add goal to queue
-    q.enqueue(goal);
+    q.enqueue(x, y);
 
     while (q.front != nullptr){
 
@@ -90,23 +91,23 @@ void floodFill(){
 
         // if grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
         if (grid[currentCoord[0]][currentCoord[1]+1] == 0){
-            grid[currentCoord[0]][(currentCoord[1])+1] == grid[currentCoord] + 1;
+            grid[currentCoord[0]][(currentCoord[1])+1] = grid[currentCoord[0]][currentCoord[1]] + 1;
             // Add coord to the queue
-            q.enqueue(grid[currentCoord[0]][(currentCoord[1])+1]);
+            q.enqueue(currentCoord[0], currentCoord[1]+1);
 
         }else if (grid[currentCoord[0]][(currentCoord[1])-1] == 0){
-            grid[currentCoord[0]][(currentCoord[1])-1] == grid[currentCoord] + 1;
-            q.enqueue(grid[currentCoord[0]][(currentCoord[1])-1]);
+            grid[currentCoord[0]][(currentCoord[1])-1] = grid[currentCoord[0]][currentCoord[1]] + 1;
+            q.enqueue(currentCoord[0], currentCoord[1]-1);
 
         }else if (grid[(currentCoord[0])+1][currentCoord[1]] == 0){
-            grid[(currentCoord[0])+1][currentCoord[1]] == grid[currentCoord] + 1;
-            q.enqueue(grid[(currentCoord[0])+1][currentCoord[1]]);
+            grid[(currentCoord[0])+1][currentCoord[1]] = grid[currentCoord[0]][currentCoord[1]] + 1;
+            q.enqueue(currentCoord[0]+1, currentCoord[1]);
 
         }else if (grid[(currentCoord[0])-1][(currentCoord[1])+1] == 0){
-            grid[(currentCoord[0])-1][currentCoord[1]] == grid[currentCoord] + 1;
-            q.enqueue(grid[(currentCoord[0])-1][currentCoord[1]]);
+            grid[(currentCoord[0])-1][currentCoord[1]] = grid[currentCoord[0]][currentCoord[1]] + 1;
+            q.enqueue(currentCoord[0]-1, currentCoord[1]);
         }
-        q.dequeue(front);   // Delete the front node from queue
+        q.dequeue();   // Delete the front node from queue
     }
 }
 
@@ -128,7 +129,7 @@ int main(){
     grid[goal[0]][goal[1]] = 0;
 
     // Call flood fill to populate the maze with values
-    floodFill();
+    floodFill(goal[0], goal[1]);
 
     // Actually running through the maze with the 'Manhattan Distancse'
 
