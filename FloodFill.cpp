@@ -139,29 +139,54 @@ void floodFill(int x, int y){
 }
 
 
-/*
-Psudocode:
-1. Set all cells except goal to 'Blank state'
-2. Set goal cell(s) value to 0 and add to queue
-3. While queue is not empty
-    a. Take front cell in queue 'out of line' for consideration
-    b. Set all blank and accessible neighbours to front cells value + 1
-    c. Add cells we just processed to the queue
-    d. Else, continue
-*/ 
+void manhattanDistance(int currentX, int currentY){
 
+    while (currentX != goal[0] || currentY != goal[1]){
+
+        int currentDistance = grid[currentX][currentY];
+
+        // loop here to go through each adjacent coord
+        for (int i = -1; i <= 1; i++){
+            for (int j = -1; j <= 1; j++){
+                // Skips current coord and diagonal coords
+                if ((i == j) || (i == -j)|| (-i == j)){
+                    continue;
+                }
+
+                int neighbourX = currentX + i;
+                int neighbourY = currentY + j;
+
+// If wall detected && neighbours are larger than current, recalculate (flood again)
+// Remeber it should check its neighbours first to make sure there is no shorter path, if not then recalculate
+
+                // Check if conditions are met
+                if (neighbourX >= 0 && neighbourX < grid_size && neighbourY >= 0 && neighbourY < grid_size && grid[neighbourX][neighbourY] < grid[currentX][currentY]){
+                    currentX = neighbourX;
+                    currentY = neighbourY;
+                    break;
+                }
+
+            }
+        }
+    }
+
+
+}
 
 int main(){
 
     // Set up visited as false grid
     initialiseGrid();
-    
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
 
     // Call flood fill to populate the maze with values
     floodFill(goal[0], goal[1]);
 
+    manhattanDistance(start[0], start[1]);
+
+
+//Testing
     printMaze();
     // Actually running through the maze with the 'Manhattan Distancse'
 
@@ -173,3 +198,20 @@ int main(){
 // When running
 // Add if cell has been visited
 // if it hits a wall, recalculate floodfill
+
+/*Psuedocode:
+1. Initialize the maze grid with initial Manhattan distance values and perform the flood-fill algorithm to populate the grid.
+
+2. Start the micromouse at the start position.
+
+3. While the micromouse has not reached the goal position:
+    a. Check if there is a wall in the direction the micromouse intends to move.
+    b. If there is a wall:
+        i. Stop the micromouse.
+        ii. Re-initialize the grid and perform the flood-fill algorithm again to update the Manhattan distance values based on the newly discovered walls.
+    c. If there is no wall:
+        i. Move the micromouse to the next position along the shortest path based on the current Manhattan distance values.
+        ii. Update the micromouse's current position.
+
+4. Repeat steps 3 until the micromouse reaches the goal.
+*/
