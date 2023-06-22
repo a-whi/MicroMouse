@@ -23,7 +23,7 @@ int start[2]= {0,0};
 
 
 // Set all values in the grid to -1
-void initializeGrid() {
+void initialiseGrid() {
     // Initialize the main grid and visited grid
     for (int i = 0; i < grid_size; i++) {
         for (int j = 0; j < grid_size; j++) {
@@ -78,8 +78,10 @@ struct Queue {
     // Function to remove a data from given queue q
     void dequeue() {
         // If queue is empty, return NULL.
-        if (front == nullptr)
+        if (front == nullptr){
+            end = nullptr;
             return;
+        }
 
         // Store previous front and move front one node ahead
         Node* temp = front;
@@ -87,8 +89,9 @@ struct Queue {
         front = front->next;
 
         // If front becomes NULL, then change rear also as NULL
-        if (front == nullptr)
+        if (front == nullptr){
             end = nullptr;
+        }
 
         delete (temp);
     }
@@ -123,7 +126,7 @@ void floodFill(int x, int y){
                 int adjacentY = currentY + j;
 
                 // Check if conditions are met
-                if (adjacentX >= 0 && adjacentX <= grid_size && adjacentY >= 0 && adjacentY <= grid_size && !visited[adjacentX][adjacentY]){
+                if (adjacentX >= 0 && adjacentX < grid_size && adjacentY >= 0 && adjacentY < grid_size && !visited[adjacentX][adjacentY]){
                     grid[adjacentX][adjacentY] = grid[currentX][currentY] + 1;
                     // Add coord to the queue
                     q.enqueue(adjacentX, adjacentY);
@@ -151,11 +154,11 @@ Psudocode:
 int main(){
 
     // Set up visited as false grid
-    initializeGrid();
+    initialiseGrid();
     
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
-    printMaze();
+
     // Call flood fill to populate the maze with values
     floodFill(goal[0], goal[1]);
 
