@@ -32,6 +32,15 @@ void initializeGrid() {
     }
 }
 
+void printMaze() {
+    for (int i = 0; i < grid_size; i++) {
+        for (int j = 0; j < grid_size; j++) {
+            std::cout << grid[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+
 // Create a queue using linked list
 // Add to the back take from the front deleting the head and changing the head
 
@@ -102,24 +111,26 @@ void floodFill(int x, int y){
         // Mark coord as visited
         visited[currentX][currentY] = true;
 
-        // if grid cood +-1 is in grid range && grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
-        if (currentY + 1 < grid_size && !visited[currentX][currentY+1]){
-            grid[currentX][currentY+1] = grid[currentX][currentY] + 1;
-            // Add coord to the queue
-            q.enqueue(currentX, currentY+1);
+        // loop here to go through each adjacent coord
+        for (int i = -1; i <= 1; i++){
+            for (int j = -1; j <= 1; j++){
+                // Skips current coord and diagonal coords
+                if ((i == j) || (i == -j)|| (-i == j)){
+                    continue;
+                }
 
-        }else if (currentY - 1 < grid_size && !visited[currentX][currentY-1]){
-            grid[currentX][currentY-1] = grid[currentX][currentY] + 1;
-            q.enqueue(currentX, currentY-1);
+                int adjacentX = currentX + i;
+                int adjacentY = currentY + j;
 
-        }else if (currentX + 1 < grid_size && !visited[currentX+1][currentY]){
-            grid[currentX+1][currentY] = grid[currentX][currentY] + 1;
-            q.enqueue(currentX+1, currentY);
-
-        }else if (currentX - 1 < grid_size && !visited[currentX-1][currentY+1]){
-            grid[currentX-1][currentY] = grid[currentX][currentY] + 1;
-            q.enqueue(currentX-1, currentY);
+                // Check if conditions are met
+                if (adjacentX >= 0 && adjacentX <= grid_size && adjacentY >= 0 && adjacentY <= grid_size && !visited[adjacentX][adjacentY]){
+                    grid[adjacentX][adjacentY] = grid[currentX][currentY] + 1;
+                    // Add coord to the queue
+                    q.enqueue(adjacentX, adjacentY);
+                }
+            }
         }
+
         q.dequeue();   // Delete the front node from queue
     }
 }
@@ -137,22 +148,14 @@ Psudocode:
 */ 
 
 
-void printMaze() {
-    for (int i = 0; i < grid_size; i++) {
-        for (int j = 0; j < grid_size; j++) {
-            std::cout << grid[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
 int main(){
-
-    // Set goal on grid to 0
-    grid[goal[0]][goal[1]] = 0;
 
     // Set up visited as false grid
     initializeGrid();
-
+    
+    // Set goal on grid to 0
+    grid[goal[0]][goal[1]] = 0;
+    printMaze();
     // Call flood fill to populate the maze with values
     floodFill(goal[0], goal[1]);
 
