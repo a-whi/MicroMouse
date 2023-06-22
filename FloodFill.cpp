@@ -16,10 +16,21 @@ This is my first C++ code, hence why it has so many comments.
 // Creates a blank grid
 const int grid_size = 8;
 int grid[grid_size][grid_size];
+bool visited[grid_size][grid_size]; // Set a true or false grid to track visited nodes
 
 int goal[2] = {5,5};
 int start[2]= {0,0};
 
+
+// Set all values in the grid to -1
+void initializeGrid() {
+    // Initialize the main grid and visited grid
+    for (int i = 0; i < grid_size; i++) {
+        for (int j = 0; j < grid_size; j++) {
+            visited[i][j] = false;
+        }
+    }
+}
 
 // Create a queue using linked list
 // Add to the back take from the front deleting the head and changing the head
@@ -77,7 +88,6 @@ struct Queue {
 
 void floodFill(int x, int y){
 
-    int currentCoord[2] = {0};
     // Initialise the queue
     Queue q;
     // Add goal to queue
@@ -86,26 +96,29 @@ void floodFill(int x, int y){
     while (q.front != nullptr){
 
         // Set currentCoord as the coords at the front of queue
-        currentCoord[0] = q.front->data[0];
-        currentCoord[1] = q.front->data[1];   
+        int currentX = q.front->data[0];
+        int currentY = q.front->data[1];   
 
-        // if grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
-        if (grid[currentCoord[0]][currentCoord[1]+1] == 0){
-            grid[currentCoord[0]][(currentCoord[1])+1] = grid[currentCoord[0]][currentCoord[1]] + 1;
+        // Mark coord as visited
+        visited[currentX][currentY] = true;
+
+        // if grid cood +-1 is in grid range && grid[currentcood[0]][(currentcood[1])+1] == blank or the value currently set is larger than the new value
+        if (currentY + 1 < grid_size && !visited[currentX][currentY+1]){
+            grid[currentX][currentY+1] = grid[currentX][currentY] + 1;
             // Add coord to the queue
-            q.enqueue(currentCoord[0], currentCoord[1]+1);
+            q.enqueue(currentX, currentY+1);
 
-        }else if (grid[currentCoord[0]][(currentCoord[1])-1] == 0){
-            grid[currentCoord[0]][(currentCoord[1])-1] = grid[currentCoord[0]][currentCoord[1]] + 1;
-            q.enqueue(currentCoord[0], currentCoord[1]-1);
+        }else if (currentY - 1 < grid_size && !visited[currentX][currentY-1]){
+            grid[currentX][currentY-1] = grid[currentX][currentY] + 1;
+            q.enqueue(currentX, currentY-1);
 
-        }else if (grid[(currentCoord[0])+1][currentCoord[1]] == 0){
-            grid[(currentCoord[0])+1][currentCoord[1]] = grid[currentCoord[0]][currentCoord[1]] + 1;
-            q.enqueue(currentCoord[0]+1, currentCoord[1]);
+        }else if (currentX + 1 < grid_size && !visited[currentX+1][currentY]){
+            grid[currentX+1][currentY] = grid[currentX][currentY] + 1;
+            q.enqueue(currentX+1, currentY);
 
-        }else if (grid[(currentCoord[0])-1][(currentCoord[1])+1] == 0){
-            grid[(currentCoord[0])-1][currentCoord[1]] = grid[currentCoord[0]][currentCoord[1]] + 1;
-            q.enqueue(currentCoord[0]-1, currentCoord[1]);
+        }else if (currentX - 1 < grid_size && !visited[currentX-1][currentY+1]){
+            grid[currentX-1][currentY] = grid[currentX][currentY] + 1;
+            q.enqueue(currentX-1, currentY);
         }
         q.dequeue();   // Delete the front node from queue
     }
@@ -136,6 +149,9 @@ int main(){
 
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
+
+    // Set up visited as false grid
+    initializeGrid();
 
     // Call flood fill to populate the maze with values
     floodFill(goal[0], goal[1]);
