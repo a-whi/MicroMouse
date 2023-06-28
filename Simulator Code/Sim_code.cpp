@@ -6,12 +6,13 @@ This is my mouse code for the simulator to test my code. I'm using an API, so fu
 This is not the actual mouse file
 */
 
-#include <iostream>
-#include <string>
-
 #include "API.h"
 #include "Global.h"
 #include "Floodfill.h"
+
+#include <iostream>
+#include <string>
+
 
 void log(const std::string& text) {
     std::cerr << text << std::endl;
