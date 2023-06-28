@@ -20,7 +20,27 @@ bool visited[grid_size][grid_size]; // Set a true or false grid to track visited
 
 int goal[2] = {5,5};
 int start[2]= {0,0};
+//////
+bool goGoal = true;         // If false it means its reached the goal
+//////
 
+/////////////////////////////
+// Class for holding the data of where walls are in each cell
+class GridCell {
+public:
+    bool northWall;
+    bool eastWall;
+    bool southWall;
+    bool westWall;
+
+    GridCell() {
+        northWall = false;
+        eastWall = false;
+        southWall = false;
+        westWall = false;
+    }
+};
+/////////////////////////////
 
 // Set all values in the grid to -1
 void initialiseGrid() {
@@ -145,6 +165,13 @@ void manhattanDistance(int currentX, int currentY){
 
         int currentDistance = grid[currentX][currentY];
 
+// Unsure if this is really needed
+        // We have found the goal, we can now go home
+        if (currentX == goal[0] && currentY == goal[1]){
+            goGoal = false;
+        }
+/////////
+
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
@@ -177,6 +204,7 @@ int main(){
 
     // Set up visited as false grid
     initialiseGrid();
+
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
 
