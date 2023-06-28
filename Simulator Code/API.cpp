@@ -3,14 +3,14 @@
 #include <cstdlib>
 #include <iostream>
 
-int API::mazeWidth() {
+int API::mazeWidth(int grid_size) {
     std::cout << "mazeWidth" << std::endl;
     std::string response;
     std::cin >> response;
     return atoi(response.c_str());
 }
 
-int API::mazeHeight() {
+int API::mazeHeight(int grid_size) {
     std::cout << "mazeHeight" << std::endl;
     std::string response;
     std::cin >> response;

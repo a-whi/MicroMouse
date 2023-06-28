@@ -6,8 +6,8 @@ class API {
 
 public:
 
-    static int mazeWidth();
-    static int mazeHeight();
+    static int mazeWidth(int grid_size){};
+    static int mazeHeight(int grid_size);
 
     static bool wallFront();
     static bool wallRight();
