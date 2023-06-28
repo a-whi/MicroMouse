@@ -10,6 +10,8 @@ This is not the actual mouse file
 #include <string>
 
 #include "API.h"
+#include "LinkedList.h"
+#include "Global.h"
 
 void log(const std::string& text) {
     std::cerr << text << std::endl;
@@ -17,6 +19,13 @@ void log(const std::string& text) {
 
 int main(int argc, char* argv[]) {
     log("Running...");
+
+    // Set up visited as false grid
+    initialiseGrid();
+    // Set goal on grid to 0
+    grid[goal[0]][goal[1]] = 0;
+    log("Grid made, goal set");
+
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "abc");
     while (true) {
