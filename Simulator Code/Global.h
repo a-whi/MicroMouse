@@ -20,7 +20,7 @@ int start[2]= {0,0};
 bool goGoal = true;         // If false it means its reached the goal
 //////
 
-
+/////////////////////// Dont think this is needed as API uses different functios
 // Set all values in the grid to -1
 void initialiseGrid() {
     // Initialize the main grid and visited grid
@@ -30,6 +30,7 @@ void initialiseGrid() {
         }
     }
 }
+////////////////////////////////
 
 void printMaze() {
     for (int i = 0; i < grid_size; i++) {

@@ -12,6 +12,7 @@ This is not the actual mouse file
 #include "API.h"
 #include "LinkedList.h"
 #include "Global.h"
+#include "Floodfill.h"
 
 void log(const std::string& text) {
     std::cerr << text << std::endl;
@@ -20,8 +21,11 @@ void log(const std::string& text) {
 int main(int argc, char* argv[]) {
     log("Running...");
 
+// API uses different function do think this is needed.
+///
     // Set up visited as false grid
     initialiseGrid();
+///
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
     log("Grid made, goal set");
