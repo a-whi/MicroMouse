@@ -120,6 +120,11 @@ void manhattanDistance(int currentX, int currentY){
 
     while (currentX != goal[0] || currentY != goal[1]){
 
+        // Case = north, east, south, west
+        // Forward direction = currentX +-1 and currentY +- 1
+        // and so on
+        // Then below after we find there is a wall recalculate
+
         int currentDistance = grid[currentX][currentY];
 
 // Unsure if this is really needed
@@ -145,6 +150,7 @@ void manhattanDistance(int currentX, int currentY){
 
                 // Check if conditions are met
                 if (neighbourX >= 0 && neighbourX < grid_size && neighbourY >= 0 && neighbourY < grid_size && grid[neighbourX][neighbourY] < grid[currentX][currentY]){
+                    // if wall in front or left or right recalculate 
                     currentX = neighbourX;
                     currentY = neighbourY;
                     break;
