@@ -31,12 +31,3 @@ void initialiseGrid() {
     }
 }
 ////////////////////////////////
-
-void printMaze() {
-    for (int i = 0; i < grid_size; i++) {
-        for (int j = 0; j < grid_size; j++) {
-            std::cout << grid[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
