@@ -10,11 +10,11 @@ All these values are know before the competition, its good practise to put these
 #include <iostream>
 
 // Creates a blank grid
-const int grid_size = 8;
+const int grid_size = 16;
 int grid[grid_size][grid_size];
 bool visited[grid_size][grid_size]; // Set a true or false grid to track visited nodes
 
-int goal[2] = {5,5};
+int goal[2] = {8,7};
 int start[2]= {0,0};
 //////
 bool goGoal = true;         // If false it means its reached the goal
