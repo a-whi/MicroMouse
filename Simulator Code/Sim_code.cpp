@@ -217,7 +217,7 @@ int main(int argc, char* argv[]) {
     API::setColor(0, 0, 'G');
     API::setText(0, 0, "START");
     API::setColor(8, 7, 'R');
-    API::setText(0, 0, "GOAL");
+    API::setText(8, 7, "GOAL");
 
     // Actual maze solver //
 
