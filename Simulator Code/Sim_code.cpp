@@ -220,7 +220,7 @@ int main(int argc, char* argv[]) {
     API::setText(8, 7, "GOAL");
 
     // Actual maze solver //
-
+/// fix this
     while (goGoal){
 
         // Set up visited as false grid
