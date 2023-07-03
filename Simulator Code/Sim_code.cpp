@@ -104,6 +104,19 @@ void floodFill(int x, int y){
 
                 // Check if conditions are met
                 if (adjacentX >= 0 && adjacentX < grid_size && adjacentY >= 0 && adjacentY < grid_size && !visited[adjacentX][adjacentY]){
+                    if (API::wallFront()){
+                        // Skip this adjacent cell if there is a wall in front
+                        continue;
+                    }
+                    // Perform additional wall checking based on the current and adjacent cells
+                    if (i == 1 && API::wallRight()) {
+                        // Skip this adjacent cell if there is a wall on the right
+                        continue;
+                    } else if (i == -1 && API::wallLeft()) {
+                        // Skip this adjacent cell if there is a wall on the left
+                        continue;
+                    }
+
                     grid[adjacentX][adjacentY] = grid[currentX][currentY] + 1;
                     // Add coord to the queue
                     q.enqueue(adjacentX, adjacentY);
@@ -118,21 +131,13 @@ void floodFill(int x, int y){
 
 void manhattanDistance(int currentX, int currentY){
 
-    while (currentX != goal[0] || currentY != goal[1]){
-
-        // Case = north, east, south, west
-        // Forward direction = currentX +-1 and currentY +- 1
-        // and so on
-        // Then below after we find there is a wall recalculate
-
+    while (currentX != goal[0] && currentY != goal[1]){
         int currentDistance = grid[currentX][currentY];
 
-// Unsure if this is really needed
-        // We have found the goal, we can now go home
-        if (currentX == goal[0] && currentY == goal[1]){
-            goGoal = false;
-        }
-/////////
+        // Check for walls
+        bool isWallFront = API::wallFront();
+        bool isWallLeft = API::wallLeft();
+        bool isWallRight = API::wallRight();
 
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
@@ -150,15 +155,47 @@ void manhattanDistance(int currentX, int currentY){
 
                 // Check if conditions are met
                 if (neighbourX >= 0 && neighbourX < grid_size && neighbourY >= 0 && neighbourY < grid_size && grid[neighbourX][neighbourY] < grid[currentX][currentY]){
-                    // if wall in front or left or right recalculate 
-                    currentX = neighbourX;
-                    currentY = neighbourY;
+                    // if wall in front or left or right recalculate
+                    if (i == 1 || i == -1){
+                        if (isWallLeft || isWallRight){
+                            log("Wall blocking shorest path, recalculating...");
+                            // recalculate as shortest is going left of right
+                            floodFill(currentX, currentY);
+                        }else{
+                            if (i == 1){
+                                log("Right");
+                                right(); // update the robot direction
+                                API::turnRight(); // Robot turns right
+                            }else{
+                                log("Left");
+                                left(); // update the robot direction
+                                API::turnLeft(); // Robot turns left
+                            }
+                            currentX = neighbourX;
+                            currentY = neighbourY;
+                        }
+                    }else{
+                        if (isWallFront){
+                            // recalculate
+                            log("Wall in front, recalculating...");
+                            floodFill(currentX, currentY);
+                        }else{
+                            if (j == 1){
+                                log("Forward");
+                                API::moveForward(); // Robot moves forward
+                            }
+                            currentX = neighbourX;
+                            currentY = neighbourY;
+                        }
+                    }
                     break;
                 }
 
             }
         }
     }
+    // We have found the goal, we can now go home
+    goGoal = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

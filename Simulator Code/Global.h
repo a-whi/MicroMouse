@@ -31,3 +31,10 @@ void initialiseGrid() {
     }
 }
 ////////////////////////////////
+
+// Is change this grid to hold horizontal and vertical walls in 2 different grids
+
+// Then in floodfill and manhattan when there is a wall, we need to update the 2 grids
+
+// Then when we floodfill we should use info from the 2 grids + a new grid that hold the values we have used so far, so 
+//this function should only be called once at the start.

@@ -161,16 +161,9 @@ void floodFill(int x, int y){
 
 void manhattanDistance(int currentX, int currentY){
 
-    while (currentX != goal[0] || currentY != goal[1]){
+    while (currentX != goal[0] && currentY != goal[1]){
 
         int currentDistance = grid[currentX][currentY];
-
-// Unsure if this is really needed
-        // We have found the goal, we can now go home
-        if (currentX == goal[0] && currentY == goal[1]){
-            goGoal = false;
-        }
-/////////
 
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){

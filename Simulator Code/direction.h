@@ -56,3 +56,35 @@ void right() {
             break;
     }
 }
+
+// Function to move the mouse forward
+void forward(int currentX, int currentY) {
+    int deltaX = 0;
+    int deltaY = 0;
+
+    // Update the coordinates based on the current direction
+    switch (currentDirection) {
+        case north:
+            deltaY = -1;
+            break;
+        case east:
+            deltaX = 1;
+            break;
+        case south:
+            deltaY = 1;
+            break;
+        case west:
+            deltaX = -1;
+            break;
+    }
+
+    // Update the mouse's position by adding the deltas to the current position
+    int newX = currentX + deltaX;
+    int newY = currentY + deltaY;
+
+    // // Check if the new position is within bounds and there is no wall
+    // if (newX >= 0 && newX < grid_size && newY >= 0 && newY < grid_size && !wall[newX][newY]) {
+    //     currentX = newX;
+    //     currentY = newY;
+    // }
+}
