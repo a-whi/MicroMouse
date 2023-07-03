@@ -104,15 +104,20 @@ void floodFill(int x, int y){
 
                 // Check if conditions are met
                 if (adjacentX >= 0 && adjacentX < grid_size && adjacentY >= 0 && adjacentY < grid_size && !visited[adjacentX][adjacentY]){
-                    if (API::wallFront()){
+                    if (j == 1 && wallGrid[currentX][currentY].north){
                         // Skip this adjacent cell if there is a wall in front
                         continue;
                     }
+                    if (j == -1 && wallGrid[currentX][currentY].south){
+                        // Skip this adjacent cell if there is a wall behind
+                        continue;
+                    }
                     // Perform additional wall checking based on the current and adjacent cells
-                    if (i == 1 && API::wallRight()) {
+                    if (i == 1 && wallGrid[currentX][currentY].east) {
                         // Skip this adjacent cell if there is a wall on the right
                         continue;
-                    } else if (i == -1 && API::wallLeft()) {
+                    }
+                    if (i == -1 && wallGrid[currentX][currentY].west) {
                         // Skip this adjacent cell if there is a wall on the left
                         continue;
                     }
@@ -139,6 +144,8 @@ void manhattanDistance(int currentX, int currentY){
         bool isWallLeft = API::wallLeft();
         bool isWallRight = API::wallRight();
 
+        updateWallGrid(isWallFront, isWallLeft, isWallRight, currentX, currentY);
+
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
@@ -150,9 +157,7 @@ void manhattanDistance(int currentX, int currentY){
                 int neighbourX = currentX + i;
                 int neighbourY = currentY + j;
 
-// If wall detected && neighbours are larger than current, recalculate (flood again)
-// Remeber it should check its neighbours first to make sure there is no shorter path, if not then recalculate
-
+// This part can be simplified as we are updating the cell wall info above 
                 // Check if conditions are met
                 if (neighbourX >= 0 && neighbourX < grid_size && neighbourY >= 0 && neighbourY < grid_size && grid[neighbourX][neighbourY] < grid[currentX][currentY]){
                     // if wall in front or left or right recalculate
@@ -217,11 +222,10 @@ int main(int argc, char* argv[]) {
     // Actual maze solver //
 
     while (goGoal){
-// API uses different function do think this is needed.
-///
+
         // Set up visited as false grid
         initialiseGrid();
-///
+
         // Call flood fill to populate the maze with values
         floodFill(goal[0], goal[1]);
         manhattanDistance(start[0], start[1]);
