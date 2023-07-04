@@ -25,7 +25,7 @@ void log(const std::string& text) {
 struct Node {
     int data[2];
     Node* next;
-};
+}; 
 
 // The queue, front stores the front node of the linked list and rear stores the last node of the linked list
 struct Queue {
@@ -105,7 +105,7 @@ void floodFill(int x, int y){
 
                 // Check if conditions are met
                 if (adjacentX >= 0 && adjacentX < grid_size && adjacentY >= 0 && adjacentY < grid_size && !visited[adjacentX][adjacentY]){
-                    //log("Floodfill North: " + std::to_string(wallGrid[x][y].north));
+                    
                     if (j == 1 && wallGrid[x][y].north){
                         // Skip this adjacent cell if there is a wall in front
                         log("Floodfill North: " + std::to_string(wallGrid[x][y].north));
@@ -190,43 +190,48 @@ void manhattanDistance(int currentX, int currentY){
 // This part can be simplified as we are updating the cell wall info above 
                 // Check if conditions are met
                 if (neighbourX >= 0 && neighbourX < grid_size && neighbourY >= 0 && neighbourY < grid_size && grid[neighbourX][neighbourY] < grid[currentX][currentY]){
-                    // if wall in front or left or right recalculate
-                    if (i == 1 || i == -1){
-                        if (isWallLeft || isWallRight){
-                            log("Wall blocking shorest path, recalculating...");
-                            initialiseGrid();
-                            // recalculate as shortest is going left of right
-                            //floodFill(currentX, currentY); // old version
-                            floodFill(goal[0], goal[1]);
+                    // if i and j equal 1 or -1 it will mean its a direction
+                    if (i == 1){
+                        // First check if there is a wall in the way
+                        if (wallGrid[currentX][currentY].east){
+                            log("recalculate");
+                        }else{ // We can turn and move
+                            log("Right");           // Console confirm
+                            right();                // Update the move orientation
+///// not sure if we have to move forward by 1 or if turning right moves up forward 1
+                            forward();
+                            currentX = neighbourX;  // Update our coords
+                            currentY = neighbourY;
+                        }
+                    }else if (i == -1){
+                        if (wallGrid[currentX][currentY].west){
+                            log("recalculate");
                         }else{
-                            if (i == 1){
-                                log("Right");
-                                right(); // update the robot direction
-                                API::turnRight(); // Robot turns right
-                            }else{
-                                log("Left");
-                                left(); // update the robot direction
-                                API::turnLeft(); // Robot turns left
-                            }
+                            log("Left");
+                            left();
+                            API::turnLeft;
+                            API::moveForward;
                             currentX = neighbourX;
+                            currentY = neighbourY;
+                        }
+                    }else if (j == 1){
+                        if (wallGrid[currentX][currentY].north){
+                            log("recalculate");
+                        }else{
+                            log("Forward");
+                            API::moveForward;
+                            currentX = neighbourX;  // Update our coords
                             currentY = neighbourY;
                         }
                     }else{
-                        if (isWallFront){
-                            // recalculate
-                            log("Wall in front, recalculating...");
-                            initialiseGrid();
-                            floodFill(goal[0], goal[1]);
+                        if (wallGrid[currentX][currentY].south){
+                            log("recalculate");
                         }else{
-                            if (j == 1){
-                                log("Forward");
-                                API::moveForward(); // Robot moves forward
-                            }
-                            currentX = neighbourX;
+
+                            currentX = neighbourX;  // Update our coords
                             currentY = neighbourY;
                         }
                     }
-                    break;
                 }
 
             }

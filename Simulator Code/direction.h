@@ -12,6 +12,7 @@ Direction for the mouse orientation
 #pragma once
 #include <iostream>
 #include "Global.h"
+#include "API.h"
 
 
 
@@ -31,15 +32,19 @@ void left() {
     switch (currentDirection) {
         case north:
             currentDirection = west;
+            API::turnLeft;
             break;
         case east:
             currentDirection = north;
+            API::turnLeft;
             break;
         case south:
             currentDirection = east;
+            API::turnLeft;
             break;
         case west:
             currentDirection = south;
+            API::turnLeft;
             break;
     }
 }
@@ -50,50 +55,27 @@ void right() {
     switch (currentDirection) {
         case north:
             currentDirection = east;
+            API::turnRight;
             break;
         case east:
             currentDirection = south;
+            API::turnRight;
             break;
         case south:
             currentDirection = west;
+            API::turnRight;
             break;
         case west:
             currentDirection = north;
+            API::turnRight;
             break;
     }
 }
 
-// Function to move the mouse forward
-// void forward(int currentX, int currentY) {
-//     int deltaX = 0;
-//     int deltaY = 0;
-
-//     // Update the coordinates based on the current direction
-//     switch (currentDirection) {
-//         case north:
-//             deltaY = -1;
-//             break;
-//         case east:
-//             deltaX = 1;
-//             break;
-//         case south:
-//             deltaY = 1;
-//             break;
-//         case west:
-//             deltaX = -1;
-//             break;
-//     }
-
-//     // Update the mouse's position by adding the deltas to the current position
-//     int newX = currentX + deltaX;
-//     int newY = currentY + deltaY;
-
-//     // // Check if the new position is within bounds and there is no wall
-//     // if (newX >= 0 && newX < grid_size && newY >= 0 && newY < grid_size && !wall[newX][newY]) {
-//     //     currentX = newX;
-//     //     currentY = newY;
-//     // }
-// }
+//Function to move the mouse forward
+void forward() {
+    API::moveForward;
+}
 
 // I will make a grid where each cell has this struct, it will basically say where the walls are in each coorditate
 struct wall_detection{

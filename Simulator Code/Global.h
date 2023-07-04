@@ -39,3 +39,48 @@ void initialiseGrid() {
 
 // Then when we floodfill we should use info from the 2 grids + a new grid that hold the values we have used so far, so 
 //this function should only be called once at the start.
+
+
+/*
+// This part can be simplified as we are updating the cell wall info above 
+                // Check if conditions are met
+                if (neighbourX >= 0 && neighbourX < grid_size && neighbourY >= 0 && neighbourY < grid_size && grid[neighbourX][neighbourY] < grid[currentX][currentY]){
+                    // if wall in front or left or right recalculate
+                    if (i == 1 || i == -1){
+                        if (isWallLeft || isWallRight){
+                            log("Wall blocking shorest path, recalculating...");
+                            initialiseGrid();
+                            // recalculate as shortest is going left of right
+                            //floodFill(currentX, currentY); // old version
+                            floodFill(goal[0], goal[1]);
+                        }else{
+                            if (i == 1){
+                                log("Right");
+                                right(); // update the robot direction
+                                API::turnRight(); // Robot turns right
+                            }else{
+                                log("Left");
+                                left(); // update the robot direction
+                                API::turnLeft(); // Robot turns left
+                            }
+                            currentX = neighbourX;
+                            currentY = neighbourY;
+                        }
+                    }else{
+                        if (isWallFront){
+                            // recalculate
+                            log("Wall in front, recalculating...");
+                            initialiseGrid();
+                            floodFill(goal[0], goal[1]);
+                        }else{
+                            if (j == 1){
+                                log("Forward");
+                                API::moveForward(); // Robot moves forward
+                            }
+                            currentX = neighbourX;
+                            currentY = neighbourY;
+                        }
+                    }
+                    break;
+                }
+*/
