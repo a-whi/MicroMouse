@@ -48,6 +48,8 @@ void initialiseGrid() {
     for (int i = 0; i < grid_size; i++) {
         for (int j = 0; j < grid_size; j++) {
             visited[i][j] = false;
+            grid[i][j] = -1;
+            
         }
     }
 }
@@ -138,7 +140,7 @@ void floodFill(int x, int y){
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
                 // Skips current coord and diagonal coords
-                if ((i == j) || (i == -j)|| (-i == j)){
+                if ((i != 0 && j != 0) || (i == 0 && j == 0) ){
                     continue;
                 }
 
@@ -169,7 +171,7 @@ void manhattanDistance(int currentX, int currentY){
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
                 // Skips current coord and diagonal coords
-                if ((i == j) || (i == -j)|| (-i == j)){
+                if ((i != 0 && j != 0) || (i == 0 && j == 0) ){
                     continue;
                 }
 

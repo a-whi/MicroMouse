@@ -76,7 +76,8 @@ struct Queue {
 
 
 void floodFill(int x, int y){
-
+////
+    log("FLOODFILL");
     // Initialise the queue
     Queue q;
     // Add goal to queue
@@ -85,44 +86,53 @@ void floodFill(int x, int y){
     while (q.front != nullptr){
 
         // Set currentCoord as the coords at the front of queue
-        int currentX = q.front->data[0];
-        int currentY = q.front->data[1];   
+        int x = q.front->data[0];
+        int y = q.front->data[1];   
 
         // Mark coord as visited
-        visited[currentX][currentY] = true;
+        visited[x][y] = true;
 
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
                 // Skips current coord and diagonal coords
-                if ((i == j) || (i == -j)|| (-i == j)){
+                if ((i != 0 && j != 0) || (i == 0 && j == 0)) {
                     continue;
                 }
 
-                int adjacentX = currentX + i;
-                int adjacentY = currentY + j;
+                int adjacentX = x + i;
+                int adjacentY = y + j;
 
                 // Check if conditions are met
                 if (adjacentX >= 0 && adjacentX < grid_size && adjacentY >= 0 && adjacentY < grid_size && !visited[adjacentX][adjacentY]){
-                    if (j == 1 && wallGrid[currentX][currentY].north){
+                    //log("Floodfill North: " + std::to_string(wallGrid[x][y].north));
+                    if (j == 1 && wallGrid[x][y].north){
                         // Skip this adjacent cell if there is a wall in front
+                        log("Floodfill North: " + std::to_string(wallGrid[x][y].north));
+                        log("");
                         continue;
                     }
-                    if (j == -1 && wallGrid[currentX][currentY].south){
+                    if (j == -1 && wallGrid[x][y].south){
                         // Skip this adjacent cell if there is a wall behind
+                        log("Floodfill South: " + std::to_string(wallGrid[x][y].south));
+                        log("");
                         continue;
                     }
                     // Perform additional wall checking based on the current and adjacent cells
-                    if (i == 1 && wallGrid[currentX][currentY].east) {
+                    if (i == 1 && wallGrid[x][y].east) {
                         // Skip this adjacent cell if there is a wall on the right
+                        log("Floodfill East: " + std::to_string(wallGrid[x][y].east));
+                        log("");
                         continue;
                     }
-                    if (i == -1 && wallGrid[currentX][currentY].west) {
+                    if (i == -1 && wallGrid[x][y].west) {
                         // Skip this adjacent cell if there is a wall on the left
+                        log("Floodfill West: " + std::to_string(wallGrid[x][y].west));
+                        log("");
                         continue;
                     }
 
-                    grid[adjacentX][adjacentY] = grid[currentX][currentY] + 1;
+                    grid[adjacentX][adjacentY] = grid[x][y] + 1;
                     // Add coord to the queue
                     q.enqueue(adjacentX, adjacentY);
                 }
@@ -136,21 +146,41 @@ void floodFill(int x, int y){
 
 void manhattanDistance(int currentX, int currentY){
 
-    while (currentX != goal[0] && currentY != goal[1]){
+    while (currentX != goal[0] || currentY != goal[1]){
         int currentDistance = grid[currentX][currentY];
 
         // Check for walls
         bool isWallFront = API::wallFront();
+////
+        std::string result1 = isWallFront ? "true" : "false";
+        log("isWallFront: " + result1);
+////
         bool isWallLeft = API::wallLeft();
+////
+        std::string result = isWallLeft ? "true" : "false";
+        log("isWallLeft: " + result);
+////
         bool isWallRight = API::wallRight();
+////
+        std::string result2 = isWallRight ? "true" : "false";
+        log("isWallRight: " + result2);
+////
+
 
         updateWallGrid(isWallFront, isWallLeft, isWallRight, currentX, currentY);
+////
+        log("Wall values at coordinate (" + std::to_string(currentX) + ", " + std::to_string(currentY) + "):");
+        log("north: " + std::to_string(wallGrid[currentX][currentY].north));
+        log("east: " + std::to_string(wallGrid[currentX][currentY].east));
+        log("south: " + std::to_string(wallGrid[currentX][currentY].south));
+        log("west: " + std::to_string(wallGrid[currentX][currentY].west));
+////
 
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
                 // Skips current coord and diagonal coords
-                if ((i == j) || (i == -j)|| (-i == j)){
+                if ((i != 0 && j != 0) || (i == 0 && j == 0)) {
                     continue;
                 }
 
@@ -164,8 +194,10 @@ void manhattanDistance(int currentX, int currentY){
                     if (i == 1 || i == -1){
                         if (isWallLeft || isWallRight){
                             log("Wall blocking shorest path, recalculating...");
+                            initialiseGrid();
                             // recalculate as shortest is going left of right
-                            floodFill(currentX, currentY);
+                            //floodFill(currentX, currentY); // old version
+                            floodFill(goal[0], goal[1]);
                         }else{
                             if (i == 1){
                                 log("Right");
@@ -183,7 +215,8 @@ void manhattanDistance(int currentX, int currentY){
                         if (isWallFront){
                             // recalculate
                             log("Wall in front, recalculating...");
-                            floodFill(currentX, currentY);
+                            initialiseGrid();
+                            floodFill(goal[0], goal[1]);
                         }else{
                             if (j == 1){
                                 log("Forward");
@@ -226,9 +259,8 @@ int main(int argc, char* argv[]) {
     while (goGoal){
 
         // Set up visited as false grid
-        initialiseGrid();
-
-        // Call flood fill to populate the maze with values
+        initialiseGrid();        // Call flood fill to populate the maze with values
+        log("Grid made");
         floodFill(goal[0], goal[1]);
         manhattanDistance(start[0], start[1]);
 

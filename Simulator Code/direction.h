@@ -64,36 +64,36 @@ void right() {
 }
 
 // Function to move the mouse forward
-void forward(int currentX, int currentY) {
-    int deltaX = 0;
-    int deltaY = 0;
+// void forward(int currentX, int currentY) {
+//     int deltaX = 0;
+//     int deltaY = 0;
 
-    // Update the coordinates based on the current direction
-    switch (currentDirection) {
-        case north:
-            deltaY = -1;
-            break;
-        case east:
-            deltaX = 1;
-            break;
-        case south:
-            deltaY = 1;
-            break;
-        case west:
-            deltaX = -1;
-            break;
-    }
+//     // Update the coordinates based on the current direction
+//     switch (currentDirection) {
+//         case north:
+//             deltaY = -1;
+//             break;
+//         case east:
+//             deltaX = 1;
+//             break;
+//         case south:
+//             deltaY = 1;
+//             break;
+//         case west:
+//             deltaX = -1;
+//             break;
+//     }
 
-    // Update the mouse's position by adding the deltas to the current position
-    int newX = currentX + deltaX;
-    int newY = currentY + deltaY;
+//     // Update the mouse's position by adding the deltas to the current position
+//     int newX = currentX + deltaX;
+//     int newY = currentY + deltaY;
 
-    // // Check if the new position is within bounds and there is no wall
-    // if (newX >= 0 && newX < grid_size && newY >= 0 && newY < grid_size && !wall[newX][newY]) {
-    //     currentX = newX;
-    //     currentY = newY;
-    // }
-}
+//     // // Check if the new position is within bounds and there is no wall
+//     // if (newX >= 0 && newX < grid_size && newY >= 0 && newY < grid_size && !wall[newX][newY]) {
+//     //     currentX = newX;
+//     //     currentY = newY;
+//     // }
+// }
 
 // I will make a grid where each cell has this struct, it will basically say where the walls are in each coorditate
 struct wall_detection{
@@ -103,8 +103,8 @@ struct wall_detection{
     bool west;
 };
 
-wall_detection wallGrid[grid_size][grid_size];
 
+wall_detection wallGrid[grid_size][grid_size];  // Create the wall detection grid
 
 // This is how each cell is updated based off the mouse direction
 void updateWallGrid(bool isWallFront, bool isWallLeft, bool isWallRight, int currentX, int currentY) {
