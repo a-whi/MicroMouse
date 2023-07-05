@@ -94,18 +94,86 @@ void forward(int& x, int& y) {
     }
 
 }
-// void orientation(int i, int j){
-//     if (i == 1){
-//         switch(currentDirection){
-//             case north:
-//                 right();
-//             case east:
+void orientation_movement(int i, int j, int& x, int& y){
+    if (i == 1){
+        switch(currentDirection){
+            case north:
+                right();
+                forward(x,y);
+                break;
+            case east:
+                forward(x,y);
+                break;
+            case south:
+                left();
+                forward(x,y);
+                break;
+            case west:
+                left();
+                left();
+                forward(x,y);
+                break;
+        }
+    }else if (i == -1){
+        switch(currentDirection){
+            case west:
+                forward(x,y);
+                break;
+            case north:
+                left();
+                forward(x,y);
+                break;
+            case south:
+                right();
+                forward(x,y);
+                break;
+            case east:
+                left();
+                left();
+                forward(x,y);
+                break;
+        }
+    }else if (j == 1){
+        switch(currentDirection){
+            case north:
+                forward(x,y);
+                break;
+            case east:
+                left();
+                forward(x,y);
+                break;
+            case west:
+                right();
+                forward(x,y);
+                break;
+            case south:
+                left();
+                left();
+                forward(x,y);
+                break;
+        }
+    }else{
+        switch(currentDirection){
+            case south:
+                forward(x,y);
+                break;
+            case east:
+                right();
+                forward(x,y);
+                break;
+            case west:
+                left();
+                forward(x,y);
+                break;
+            case north:
+                left();
+                left();
+                forward(x,y);
+                break;
+        }
 
-//             case south:
-//             case west:
-//         }
-//     }
-// }
+    }
+}
 
 // I will make a grid where each cell has this struct, it will basically say where the walls are in each coorditate
 struct wall_detection{

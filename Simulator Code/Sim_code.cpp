@@ -110,26 +110,23 @@ void floodFill(int x, int y){
                         // Skip this adjacent cell if there is a wall in front
                         log("Floodfill North: " + std::to_string(wallGrid[x][y].north));
                         log("");
-                        continue;
-                    }
-                    if (j == -1 && wallGrid[x][y].south){
+                        break;
+                    }else if (j == -1 && wallGrid[x][y].south){
                         // Skip this adjacent cell if there is a wall behind
                         log("Floodfill South: " + std::to_string(wallGrid[x][y].south));
                         log("");
-                        continue;
-                    }
-                    // Perform additional wall checking based on the current and adjacent cells
-                    if (i == 1 && wallGrid[x][y].east) {
+                        break;
+                    }else if (i == 1 && wallGrid[x][y].east) {
+                        // Perform additional wall checking based on the current and adjacent cells
                         // Skip this adjacent cell if there is a wall on the right
                         log("Floodfill East: " + std::to_string(wallGrid[x][y].east));
                         log("");
-                        continue;
-                    }
-                    if (i == -1 && wallGrid[x][y].west) {
+                        break;
+                    }else if (i == -1 && wallGrid[x][y].west) {
                         // Skip this adjacent cell if there is a wall on the left
                         log("Floodfill West: " + std::to_string(wallGrid[x][y].west));
                         log("");
-                        continue;
+                        break;
                     }
 
                     grid[adjacentX][adjacentY] = grid[x][y] + 1;
@@ -146,8 +143,13 @@ void floodFill(int x, int y){
 
 void manhattanDistance(int currentX, int currentY){
 
-    while (currentX != goal[0] || currentY != goal[1]){
+    // while (currentX != goal[0] || currentY != goal[1]){
+    while (goGoal){
 
+        if (currentX == goal[0] && currentY == goal[1]){
+            // We have found the goal, we can now go home
+            goGoal = false;
+        }
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
@@ -195,9 +197,10 @@ void manhattanDistance(int currentX, int currentY){
 
                         }else{ // We can turn and move
                             log("Right");           // Console confirm
-                            right();                // Update the move orientation
-///// not sure if we have to move forward by 1 or if turning right moves up forward 1
-                            forward(currentX, currentY);
+                            orientation_movement(i, j, currentX, currentY);
+//                             right();                // Update the move orientation
+// ///// not sure if we have to move forward by 1 or if turning right moves up forward 1
+//                             forward(currentX, currentY);
                             break;
                         }
                     }else if (i == -1){
@@ -209,8 +212,9 @@ void manhattanDistance(int currentX, int currentY){
 
                         }else{
                             log("Left");
-                            left();
-                            forward(currentX, currentY);
+                            orientation_movement(i, j, currentX, currentY);
+                            // left();
+                            // forward(currentX, currentY);
                             break;
                         }
                     }else if (j == 1){
@@ -222,12 +226,13 @@ void manhattanDistance(int currentX, int currentY){
 
                         }else{
                             log("Forward, north");
-                            if (currentDirection == east){
-                                left();
-                            }else if (currentDirection == west){
-                                right();
-                            }
-                            forward(currentX, currentY);
+                            orientation_movement(i, j, currentX, currentY);
+                            // if (currentDirection == east){
+                            //     left();
+                            // }else if (currentDirection == west){
+                            //     right();
+                            // }
+                            // forward(currentX, currentY);
                             break;
                         }
                     }else{
@@ -239,12 +244,13 @@ void manhattanDistance(int currentX, int currentY){
 
                         }else{
                             log("Forward, south");
-                            if (currentDirection == west){
-                                left();
-                            }else if (currentDirection == east){
-                                right();
-                            }
-                            forward(currentX, currentY);
+                            orientation_movement(i, j, currentX, currentY);
+                            // if (currentDirection == west){
+                            //     left();
+                            // }else if (currentDirection == east){
+                            //     right();
+                            // }
+                            // forward(currentX, currentY);
                             break;
                         }
                     }
@@ -255,8 +261,6 @@ void manhattanDistance(int currentX, int currentY){
             }
         }
     }
-    // We have found the goal, we can now go home
-    goGoal = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,16 +283,12 @@ int main(int argc, char* argv[]) {
 
     
 /// fix this
-    while (goGoal){
 
-        // Set up visited as false grid
-        initialiseGrid();        // Call flood fill to populate the maze with values
-        // log("Grid made");
-        floodFill(goal[0], goal[1]);
-        manhattanDistance(start[0], start[1]);
-
-
-    }
+    // Set up visited as false grid
+    initialiseGrid();        // Call flood fill to populate the maze with values
+    // log("Grid made");
+    floodFill(goal[0], goal[1]);
+    manhattanDistance(start[0], start[1]);
 
     // while (true) {
     //     if (!API::wallLeft()) {
