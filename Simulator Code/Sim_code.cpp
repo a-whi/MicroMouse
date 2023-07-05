@@ -91,6 +91,7 @@ void floodFill(int x, int y){
 
         // Mark coord as visited
         visited[x][y] = true;
+        bool skipCell = false;
 
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
@@ -109,33 +110,62 @@ void floodFill(int x, int y){
                     if (j == 1 && wallGrid[x][y].north){
                         // Skip this adjacent cell if there is a wall in front
                         log("Floodfill North: " + std::to_string(wallGrid[x][y].north));
-                        log("");
-                        break;
+                        skipCell = true;
+                        continue;
+                    // if (i == 1){
+                    //     if (wall_orientation(i, j, x, y)){
+                    //         break;
+                    //     }else{
+                    //         continue;
+                    //     }
+                    // }else if (i == -1){
+                    //     if (wall_orientation(i, j, x, y)){
+                    //         break;
+                    //     }else{
+                    //         continue;
+                    //     }
+                    // }else if (j == 1){
+                    //     if (wall_orientation(i, j, x, y)){
+                    //         break;
+                    //     }else{
+                    //         continue;
+                    //     }
+                    // }else{
+                    //     if (wall_orientation(i, j, x, y)){
+                    //         break;
+                    //     }else{
+                    //         continue;
+                    //     }
+                    // }
                     }else if (j == -1 && wallGrid[x][y].south){
                         // Skip this adjacent cell if there is a wall behind
                         log("Floodfill South: " + std::to_string(wallGrid[x][y].south));
-                        log("");
-                        break;
+                        skipCell = true;
+                        continue;
                     }else if (i == 1 && wallGrid[x][y].east) {
                         // Perform additional wall checking based on the current and adjacent cells
                         // Skip this adjacent cell if there is a wall on the right
                         log("Floodfill East: " + std::to_string(wallGrid[x][y].east));
-                        log("");
-                        break;
+                        skipCell = true;
+                        continue;
                     }else if (i == -1 && wallGrid[x][y].west) {
                         // Skip this adjacent cell if there is a wall on the left
                         log("Floodfill West: " + std::to_string(wallGrid[x][y].west));
-                        log("");
-                        break;
+                        skipCell = true;
+                        continue;
+                    }else{
+                        grid[adjacentX][adjacentY] = grid[x][y] + 1;
+                        // Add coord to the queue
+                        q.enqueue(adjacentX, adjacentY);
+                        //break;
                     }
-
-                    grid[adjacentX][adjacentY] = grid[x][y] + 1;
-                    // Add coord to the queue
-                    q.enqueue(adjacentX, adjacentY);
                 }
             }
+//Dont think this is needed
+            if (skipCell) {
+                    break;  // Exit the outer loop as well
+            }
         }
-
         q.dequeue();   // Delete the front node from queue
     }
 }
@@ -256,9 +286,9 @@ void manhattanDistance(int currentX, int currentY){
                     }
                 }else{
                     log("not value or not short");
-                    log("");
                 }
             }
+            log("");
         }
     }
 }

@@ -175,6 +175,73 @@ void orientation_movement(int i, int j, int& x, int& y){
     }
 }
 
+// void wall_orientation(int i, int j, int x, int y){
+//     if (i == 1){
+//         switch(currentDirection){
+//             case north:
+//                 wallGrid[x][y].east;
+//                 break;
+//             case east:
+//                 wallGrid[x][y].east;
+//                 break;
+//             case south:
+//                 wallGrid[x][y].east;
+//                 break;
+//             case west:
+//                 wallGrid[x][y].east;
+//                 break;
+//         }
+//     }else if (i == -1){
+//         switch(currentDirection){
+//             case north:
+//                 wallGrid[x][y].west;
+//                 break;
+//             case east:
+//                 wallGrid[x][y].west;
+//                 break;
+//             case south:
+//                 wallGrid[x][y].west;
+//                 break;
+//             case west:
+//                 wallGrid[x][y].west;
+//                 break;
+//         }
+//     }else if (j == 1){
+//         switch(currentDirection){
+//             case north:
+//                 wallGrid[x][y].north;
+//                 break;
+//             case east:
+//                 wallGrid[x][y].north;
+//                 break;
+//             case south:
+//                 wallGrid[x][y].north;
+//                 break;
+//             case west:
+//                 wallGrid[x][y].north;
+//                 break;
+//         }
+//     }else{
+//         switch(currentDirection){
+//             case north:
+//                 wallGrid[x][y].east;
+//                 break;
+//             case east:
+//                 wallGrid[x][y].east;
+//                 break;
+//             case south:
+//                 wallGrid[x][y].east;
+//                 break;
+//             case west:
+//                 wallGrid[x][y].east;
+//                 break;
+//         }
+
+//     }
+
+// }
+
+
 // I will make a grid where each cell has this struct, it will basically say where the walls are in each coorditate
 struct wall_detection{
     bool north;

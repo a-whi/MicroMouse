@@ -16,6 +16,7 @@ bool visited[grid_size][grid_size]; // Set a true or false grid to track visited
 
 int goal[2] = {8,7};
 int start[2]= {0,0};
+
 //////
 bool goGoal = true;         // If false it means its reached the goal
 //////
