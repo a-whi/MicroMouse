@@ -147,40 +147,34 @@ void floodFill(int x, int y){
 void manhattanDistance(int currentX, int currentY){
 
     while (currentX != goal[0] || currentY != goal[1]){
-        int currentDistance = grid[currentX][currentY];
-
-        // Check for walls
-        bool isWallFront = API::wallFront();
-////
-        std::string result1 = isWallFront ? "true" : "false";
-        log("isWallFront: " + result1);
-////
-        bool isWallLeft = API::wallLeft();
-////
-        std::string result = isWallLeft ? "true" : "false";
-        log("isWallLeft: " + result);
-////
-        bool isWallRight = API::wallRight();
-////
-        std::string result2 = isWallRight ? "true" : "false";
-        log("isWallRight: " + result2);
-////
-
-
-        updateWallGrid(isWallFront, isWallLeft, isWallRight, currentX, currentY);
-////
-        log("Wall values at coordinate (" + std::to_string(currentX) + ", " + std::to_string(currentY) + "):");
-        log("north: " + std::to_string(wallGrid[currentX][currentY].north));
-        log("east: " + std::to_string(wallGrid[currentX][currentY].east));
-        log("south: " + std::to_string(wallGrid[currentX][currentY].south));
-        log("west: " + std::to_string(wallGrid[currentX][currentY].west));
-////
 
         // loop here to go through each adjacent coord
         for (int i = -1; i <= 1; i++){
             for (int j = -1; j <= 1; j++){
+
+                int currentDistance = grid[currentX][currentY];
+
+                // Check for walls
+                bool isWallFront = API::wallFront();
+                bool isWallLeft = API::wallLeft();
+                bool isWallRight = API::wallRight();
+
+                updateWallGrid(isWallFront, isWallLeft, isWallRight, currentX, currentY);
+
+        ////
+                log("Wall values at coordinate (" + std::to_string(currentX) + ", " + std::to_string(currentY) + "):");
+                log("north: " + std::to_string(wallGrid[currentX][currentY].north));
+                log("east: " + std::to_string(wallGrid[currentX][currentY].east));
+                log("south: " + std::to_string(wallGrid[currentX][currentY].south));
+                log("west: " + std::to_string(wallGrid[currentX][currentY].west));
+        ////
+
                 // Skips current coord and diagonal coords
+                log("I Value: " + std::to_string(i));
+                log("J Value: " + std::to_string(j));
                 if ((i != 0 && j != 0) || (i == 0 && j == 0)) {
+                    log("Continue");
+                    log("");
                     continue;
                 }
 
@@ -194,46 +188,70 @@ void manhattanDistance(int currentX, int currentY){
                     if (i == 1){
                         // First check if there is a wall in the way
                         if (wallGrid[currentX][currentY].east){
-                            log("recalculate");
+                            log("Recalculate, best option was EAST");
+                            initialiseGrid();
+                            floodFill(goal[0], goal[1]);
+                            break;
+
                         }else{ // We can turn and move
                             log("Right");           // Console confirm
                             right();                // Update the move orientation
 ///// not sure if we have to move forward by 1 or if turning right moves up forward 1
-                            forward();
-                            currentX = neighbourX;  // Update our coords
-                            currentY = neighbourY;
+                            forward(currentX, currentY);
+                            break;
                         }
                     }else if (i == -1){
                         if (wallGrid[currentX][currentY].west){
-                            log("recalculate");
+                            log("Recalculate, best option was WEST");
+                            initialiseGrid();
+                            floodFill(goal[0], goal[1]);
+                            break;
+
                         }else{
                             log("Left");
                             left();
-                            API::turnLeft;
-                            API::moveForward;
-                            currentX = neighbourX;
-                            currentY = neighbourY;
+                            forward(currentX, currentY);
+                            break;
                         }
                     }else if (j == 1){
                         if (wallGrid[currentX][currentY].north){
-                            log("recalculate");
+                            log("Recalculate, best option was NORTH");
+                            initialiseGrid();
+                            floodFill(goal[0], goal[1]);
+                            break;
+
                         }else{
-                            log("Forward");
-                            API::moveForward;
-                            currentX = neighbourX;  // Update our coords
-                            currentY = neighbourY;
+                            log("Forward, north");
+                            if (currentDirection == east){
+                                left();
+                            }else if (currentDirection == west){
+                                right();
+                            }
+                            forward(currentX, currentY);
+                            break;
                         }
                     }else{
                         if (wallGrid[currentX][currentY].south){
-                            log("recalculate");
-                        }else{
+                            log("Recalculate, best option was SOUTH");
+                            initialiseGrid();
+                            floodFill(goal[0], goal[1]);
+                            break;
 
-                            currentX = neighbourX;  // Update our coords
-                            currentY = neighbourY;
+                        }else{
+                            log("Forward, south");
+                            if (currentDirection == west){
+                                left();
+                            }else if (currentDirection == east){
+                                right();
+                            }
+                            forward(currentX, currentY);
+                            break;
                         }
                     }
+                }else{
+                    log("not value or not short");
+                    log("");
                 }
-
             }
         }
     }
@@ -249,7 +267,7 @@ int main(int argc, char* argv[]) {
 
     // Set goal on grid to 0
     grid[goal[0]][goal[1]] = 0;
-    log("Goal set");
+    // log("Goal set");
 
 
     API::setColor(0, 0, 'G');
@@ -265,7 +283,7 @@ int main(int argc, char* argv[]) {
 
         // Set up visited as false grid
         initialiseGrid();        // Call flood fill to populate the maze with values
-        log("Grid made");
+        // log("Grid made");
         floodFill(goal[0], goal[1]);
         manhattanDistance(start[0], start[1]);
 

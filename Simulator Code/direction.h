@@ -32,19 +32,19 @@ void left() {
     switch (currentDirection) {
         case north:
             currentDirection = west;
-            API::turnLeft;
+            API::turnLeft();
             break;
         case east:
             currentDirection = north;
-            API::turnLeft;
+            API::turnLeft();
             break;
         case south:
             currentDirection = east;
-            API::turnLeft;
+            API::turnLeft();
             break;
         case west:
             currentDirection = south;
-            API::turnLeft;
+            API::turnLeft();
             break;
     }
 }
@@ -55,27 +55,57 @@ void right() {
     switch (currentDirection) {
         case north:
             currentDirection = east;
-            API::turnRight;
+            API::turnRight();
             break;
         case east:
             currentDirection = south;
-            API::turnRight;
+            API::turnRight();
             break;
         case south:
             currentDirection = west;
-            API::turnRight;
+            API::turnRight();
             break;
         case west:
             currentDirection = north;
-            API::turnRight;
+            API::turnRight();
             break;
     }
 }
 
 //Function to move the mouse forward
-void forward() {
-    API::moveForward;
+void forward(int& x, int& y) {
+    switch(currentDirection){
+        case north:
+            API::moveForward();
+            y++;
+            break;
+        case east:
+            API::moveForward();
+            x++;
+            break;
+        case south:
+            API::moveForward();
+            y--;
+            break;
+        case west:
+            API::moveForward();
+            x--;
+            break;
+    }
+
 }
+// void orientation(int i, int j){
+//     if (i == 1){
+//         switch(currentDirection){
+//             case north:
+//                 right();
+//             case east:
+
+//             case south:
+//             case west:
+//         }
+//     }
+// }
 
 // I will make a grid where each cell has this struct, it will basically say where the walls are in each coorditate
 struct wall_detection{
